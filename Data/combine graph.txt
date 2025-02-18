@@ -1,0 +1,52 @@
+import os
+import json
+import matplotlib.pyplot as plt
+
+# Path to the folder containing JSON files
+folder_path = 'D:/log files/log/log/json/'
+
+# List all JSON files in the folder
+json_files = [f for f in os.listdir(folder_path) if f.endswith('.json')]
+
+# Initialize lists to store data from all JSON files
+all_x_values = []
+all_y_values = []
+
+# Loop through each JSON file and extract data
+for json_file in json_files:
+    with open(os.path.join(folder_path, json_file), 'r') as file:
+        data = json.load(file)
+
+    # Check if the JSON structure has 'Train%loss' directly or nested
+    if 'Train%loss' in data:
+        y_values = data['Train%loss']
+    elif 'data' in data and 'Train%loss' in data['data']:
+        y_values = data['data']['Train%loss']
+    else:
+        print(f"Cannot find 'Train%loss' data in {json_file}")
+        continue  # Skip this file and continue with the next
+
+    # Extract x values (common for all datasets)
+    x_values = list(range(len(y_values)))
+    all_x_values.append(x_values)
+
+    all_y_values.append(y_values)
+
+# Create a single line plot for all datasets
+plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+
+# Plot the data from each JSON file
+for x, y in zip(all_x_values, all_y_values):
+    plt.plot(x, y)
+
+# Customize plot labels and title
+plt.xlabel("Iteration")
+plt.ylabel("Loss")
+plt.title("Train Loss")
+
+# Add a legend for each dataset using the file names
+legend_labels = [os.path.splitext(os.path.basename(file))[0] for file in json_files]
+plt.legend(legend_labels)
+
+# Display the plot
+plt.show()

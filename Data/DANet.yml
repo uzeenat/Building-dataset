@@ -1,0 +1,74 @@
+batch_size: 2
+iters: 80000
+loss:
+  coef:
+  - 1
+  - 1
+  - 1
+  - 0.4
+  types:
+  - ignore_index: 255
+    min_kept: 130000
+    type: OhemCrossEntropyLoss
+  - ignore_index: 255
+    min_kept: 130000
+    type: OhemCrossEntropyLoss
+  - ignore_index: 255
+    min_kept: 130000
+    type: OhemCrossEntropyLoss
+  - ignore_index: 255
+    min_kept: 130000
+    type: OhemCrossEntropyLoss
+  
+lr_scheduler:
+  end_lr: 0
+  learning_rate: 0.005
+  power: 0.9
+  type: PolynomialDecay
+  warmup_iters: 1000
+  warmup_start_lr: 1.0e-05
+model: 
+  backbone:
+    pretrained: https://bj.bcebos.com/paddleseg/dygraph/resnet50_vd_ssld_v2.tar.gz
+    type: ResNet50_vd
+  backbone_indices:
+  - 2
+  - 3
+  num_classes: 2
+  type: DANet
+optimizer:
+  momentum: 0.9
+  type: sgd
+  weight_decay: 0.0005
+test_config:
+  aug_eval: true
+  scales: 1.0
+train_dataset:
+  dataset_root: C:/Users/admin/PaddleSeg/data/data
+  train_path: C:/Users/admin/PaddleSeg/data/data/train.txt
+  num_classes: 2
+  mode: train
+  transforms:
+  - max_scale_factor: 2.0
+    min_scale_factor: 0.5
+    scale_step_size: 0.25
+    type: ResizeStepScaling
+  - crop_size:
+    - 1024
+    - 512
+    type: RandomPaddingCrop
+  - type: RandomHorizontalFlip
+  - brightness_range: 0.3
+    contrast_range: 0.8
+    saturation_range: 0.5
+    type: RandomDistort
+  - type: Normalize
+  type: Dataset
+val_dataset:
+  dataset_root: C:/Users/admin/PaddleSeg/data/data
+  val_path: C:/Users/admin/PaddleSeg/data/data/train.txt
+  num_classes: 2
+  mode: val
+  transforms:
+  - type: Normalize
+  type: Dataset
