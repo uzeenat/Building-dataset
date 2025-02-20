@@ -4,7 +4,7 @@ Dataset Collection and Preprocessing:
 Data Collection: High-resolution remote sensing imagery of the Wuhan region was sourced. The dataset consisted of satellite and UAV images with high spatial resolution.
 Data Format and Conversion: Due to the large size of the dataset, high-resolution images were converted to the JPEG2 format for easier handling and processing.
 Tiling for Efficient Download: To manage the large dataset, tiling techniques were applied to divide the images into smaller sections, allowing for faster downloading and processing.
-Annotation Using EISeg Tool: The EISeg tool was used to annotate the dataset, generating semantic and instance-level labels for rooftop detection. The tool was configured with pre-defined models for optimal annotation.
+Annotation Using EISeg Tool: The EISeg tool was used to annotate the dataset, generating semantic and instance-level labels for rooftop detection. The tool was configured with pre-defined models for optimal annotation.Here is a  link to learn how EISEG work https://github.com/PaddlePaddle/PaddleSeg
 Data Resizing: Images were resized to a consistent size to ensure uniformity during training and testing. This step involved balancing spatial resolution with computational efficiency.
 Data Splitting and Organization:
 Training, Validation, and Test Set Division: The dataset was split into three subsets: 70% for training, 15% for validation, and 15% for testing. This was done to ensure balanced representation and avoid overfitting.
